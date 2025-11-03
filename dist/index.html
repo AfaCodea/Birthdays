@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pesan Khusus untuk Bella</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Latar langit dengan awan bergerak -->
+  <div id="sky" aria-hidden="true">
+    <canvas id="cloudCanvas"></canvas>
+    <canvas id="sceneCanvas"></canvas>
+  </div>
+  <main class="container">
+    <!-- Tampilan 1: Halaman Pembuka -->
+    <section id="gate" class="view active">
+      <h1 class="script-title">Pesan Khusus Dari Yang Pernah Kurus</h1>
+      <p class="subtitle">Tapi, ada tantangan kecil dulu! 😉</p>
+      <button id="startBtn" class="btn pixel-button pixel-start">Mulai!</button>
+    </section>
+
+    <!-- Tampilan 2: Kartu Pertanyaan -->
+    <section id="quiz" class="view hidden">
+      <div id="card" class="pixel-window fade-in" role="group" aria-label="Pertanyaan">
+        <div class="pw-titlebar">
+          <span class="pw-title">Pertanyaan</span>
+          <div class="pw-controls" aria-hidden="true">
+            <span class="pw-control pw-min">–</span>
+            <span class="pw-control pw-close">×</span>
+          </div>
+        </div>
+        <div class="pw-inner">
+          <h2 id="questionText" class="question">Pertanyaan akan muncul di sini</h2>
+          <div class="input-row">
+            <input type="text" id="answerInput" class="input pixel-input" placeholder="Tulis jawabanmu di sini..." autocomplete="off" />
+            <button id="submitBtn" class="btn pixel-button">Jawab</button>
+          </div>
+          <p id="feedback" class="feedback" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tampilan 3: Halaman Hadiah -->
+    <section id="final" class="view hidden">
+      <h1 class="final-title">🎉 SELAMAT ULANG TAHUN, SAYANGKU! 🎉</h1>
+      <div class="photo-wrap">
+        <img id="memoryPhoto" src="" alt="Foto kenangan kita" class="photo" />
+      </div>
+      <div id="birthdayMessage" class="message"></div>
+    </section>
+  </main>
+
+  <!-- Storytelling Modal -->
+  <div id="storyModal" class="story-modal" role="dialog" aria-modal="true" aria-labelledby="storyTitle">
+    <div class="pixel-window">
+      <div class="pw-titlebar">
+        <span id="storyTitle" class="pw-title">Cerita Singkat</span>
+        <div class="pw-controls" aria-hidden="true">
+          <span class="pw-control pw-close-story">×</span>
+        </div>
+      </div>
+      <div class="pw-inner">
+        <p id="storyText" class="story-text"></p>
+        <button id="storyNextBtn" class="btn pixel-button">Lanjut</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Retro Loading Overlay -->
+  <div id="loader" class="retro-loader" aria-hidden="true">
+    <div class="retro-box">
+      <div class="retro-title">LOADING</div>
+      <div class="retro-bar"><span class="fill"></span></div>
+      <div class="retro-dots">▪ ▪ ▪</div>
+    </div>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" preload="auto"></audio>
+  <button id="musicBtn" class="btn pixel-button music-toggle" aria-label="Toggle music">♫ Musik: Off</button>
+
+  <!-- Confetti container -->
+  <div id="confetti"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

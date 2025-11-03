@@ -1,0 +1,17 @@
+{
+  "name": "birthdays",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "build": "rm -rf dist && mkdir -p dist && cp index.html styles.css script.js dist/ && cp -R assets dist/ && cp _redirects dist/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
