@@ -45,6 +45,21 @@ input, button, select, textarea { font-family: inherit; }
 .view.active { display: block; }
 .view.hidden { display: none; }
 
+/* Posisikan halaman pembuka di tengah layar, di atas awan */
+#gate {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 3;
+}
+
+.gate-content {
+  text-align: center;
+  /* geser sedikit ke atas agar berada di atas area awan */
+  transform: translateY(-20vh);
+}
+
 .script-title {
   font-family: 'VT323', monospace;
   font-size: 3rem;
