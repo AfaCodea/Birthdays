@@ -49,9 +49,34 @@ input, button, select, textarea { font-family: inherit; }
 #gate {
   position: fixed;
   inset: 0;
-  display: grid;
-  place-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  transform: translateY(-24vh);
+  text-align: center;
   z-index: 3;
+}
+
+/* Hanya tampil sebagai flex saat aktif, agar kelas .hidden bisa bekerja */
+#gate.view.active { display: flex; }
+
+/* Posisikan kuis lebih tinggi di atas awan */
+#quiz.view.active {
+  display: block;
+  transform: translateY(-18vh);
+  z-index: 2;
+}
+
+/* Batasi lebar kartu form agar tetap rapi dan terpusat */
+#card {
+  width: min(92vw, 560px);
+  margin: 0 auto;
+}
+
+@media (max-width: 520px) {
+  #gate { transform: translateY(-16vh); }
 }
 
 .gate-content {
@@ -62,7 +87,7 @@ input, button, select, textarea { font-family: inherit; }
 
 .script-title {
   font-family: 'VT323', monospace;
-  font-size: 3rem;
+  font-size: clamp(2rem, 6vw, 3rem);
   color: #bc6b24; /* selaraskan dengan warna teks tombol pixel */
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -77,7 +102,7 @@ input, button, select, textarea { font-family: inherit; }
   color: var(--tomato);
   text-transform: uppercase;
   text-align: center;
-  margin: 0 0 24px;
+  margin: 0 0 28px;
   text-shadow: 0 1px 0 #fff, 0 6px 18px rgba(0,0,0,0.25);
 }
 
@@ -105,7 +130,7 @@ input, button, select, textarea { font-family: inherit; }
 
 .input-row {
   display: flex;
-  gap: 12px;
+  gap: 16px;
 }
 
 .input {
@@ -159,7 +184,8 @@ input, button, select, textarea { font-family: inherit; }
 
 .feedback {
   min-height: 24px;
-  margin-top: 10px;
+  margin-top: 16px;
+  margin-bottom: 6px;
   font-weight: 700;
 }
 
@@ -179,14 +205,119 @@ input, button, select, textarea { font-family: inherit; }
   outline: 2px solid #000;
 }
 
+/* Card foto dua kolom di tampilan final */
+.photo-card {
+  width: min(92vw, 820px);
+  margin: 0 auto 16px;
+}
+
+#final .photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.photo-slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+#final .photo-slot .photo {
+  width: 100%;
+  max-width: 360px;
+}
+
+/* Topi ulang tahun sederhana di atas foto */
+.hat {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-12deg);
+  width: 0;
+  height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 42px solid #ffd166; /* warna topi */
+  filter: drop-shadow(0 2px 0 rgba(0,0,0,0.25));
+}
+.hat::after {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: -14px;
+  width: 12px;
+  height: 12px;
+  background: #ff8fb1; /* pom-pom */
+  border: 2px solid #000;
+  border-radius: 50%;
+}
+
+@media (max-width: 640px) {
+  #final .photo-grid { grid-template-columns: 1fr; }
+  .hat { top: -14px; border-left-width: 14px; border-right-width: 14px; border-bottom-width: 34px; }
+}
+
+/* Responsif ekstra untuk smartphone kecil */
+@media (max-width: 520px) {
+  #quiz.view.active { transform: translateY(-12vh); }
+  .container { padding: 16px; }
+  .pw-inner { padding: 12px; }
+  .btn { padding: 10px 14px; }
+  .input { padding: 10px 12px; }
+  #final .photo-grid { gap: 14px; }
+  .message { padding: 12px 14px; }
+}
+
+@media (max-width: 380px) {
+  .btn { padding: 9px 12px; font-size: clamp(12px, 3.6vw, 16px); }
+  .pw-title { font-size: clamp(20px, 5.6vw, 24px); }
+  .script-title, .final-title { letter-spacing: 0.5px; }
+  .wa-number-row, .wa-row { gap: 10px; }
+}
+
 .message {
-  margin-top: 18px;
+  margin-top: 22px;
   background: rgba(0,0,0,0.6);
   color: var(--white);
   border-left: 4px solid var(--red);
   border-radius: 10px;
   padding: 14px 16px;
   line-height: 1.7;
+}
+
+/* WhatsApp feedback card */
+.wa-card {
+  width: min(92vw, 820px);
+  margin: 20px auto 24px;
+}
+.wa-desc {
+  margin: 0 0 10px;
+  color: #2c5d41;
+  font-weight: 700;
+}
+.wa-number-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.wa-label { font-weight: 700; color: #2c5d41; }
+.wa-number { width: 100%; }
+.wa-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.wa-input { width: 100%; }
+
+@media (max-width: 640px) {
+  .wa-number-row { grid-template-columns: 1fr; }
+  .wa-row { grid-template-columns: 1fr; }
 }
 
 /* Animasi fade-in lembut */
@@ -233,6 +364,8 @@ a:hover { color: var(--tomato-dark); text-decoration: underline; }
   inset: 0;
   width: 100%;
   height: 100%;
+  /* Pastikan layer kanvas tidak menghalangi interaksi ke form */
+  pointer-events: none;
 }
 
 .cloud {
@@ -295,7 +428,7 @@ a:hover { color: var(--tomato-dark); text-decoration: underline; }
 
 .pw-title {
   font-family: 'VT323', monospace;
-  font-size: 26px;
+  font-size: clamp(22px, 4.6vw, 26px);
   color: #2c5d41;
 }
 
@@ -458,7 +591,7 @@ a:hover { color: var(--tomato-dark); text-decoration: underline; }
 .music-toggle {
   position: fixed;
   right: 10px;
-  bottom: 10px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);
   z-index: 7;
   font-size: clamp(10px, 2.8vw, 24px);
   padding: 5px 10px;

@@ -48,10 +48,44 @@
     <!-- Tampilan 3: Halaman Hadiah -->
     <section id="final" class="view hidden">
       <h1 class="final-title">🎉 SELAMAT ULANG TAHUN, KENTUNG! 🎉</h1>
-      <div class="photo-wrap">
-        <img id="memoryPhoto" src="" alt="Foto kenangan kita" class="photo" />
+      <div id="photosCard" class="pixel-window photo-card">
+        <div class="pw-titlebar">
+          <span class="pw-title">Photo Box</span>
+          <div class="pw-controls" aria-hidden="true"></div>
+        </div>
+        <div class="pw-inner">
+          <div class="photo-grid">
+            <div class="photo-slot">
+              <img id="memoryPhoto1" src="" alt="Foto Bella 1" class="photo" />
+              <span class="hat" aria-hidden="true"></span>
+            </div>
+            <div class="photo-slot">
+              <img id="memoryPhoto2" src="" alt="Foto Bella 2" class="photo" />
+              <span class="hat" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="birthdayMessage" class="message"></div>
+
+      <!-- Feedback & WhatsApp -->
+      <div id="waCard" class="pixel-window wa-card">
+        <div class="pw-titlebar">
+          <span class="pw-title">Feedback Me</span>
+          <div class="pw-controls" aria-hidden="true"></div>
+        </div>
+        <div class="pw-inner">
+          <p class="wa-desc">Tulis ucapaan singkat untukku.</p>
+          <div class="wa-number-row">
+            <label for="waNumber" class="wa-label">Nomor WhatsApp (opsional):</label>
+            <input id="waNumber" type="tel" class="input pixel-input wa-number" placeholder="contoh: 6281234567890" autocomplete="off" />
+          </div>
+          <div class="wa-row">
+            <input id="waMsg1" type="text" class="input pixel-input wa-input" placeholder="Tulis pesanmu di sini..." />
+            <button id="waSend1" class="btn pixel-button">Kirim</button>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 

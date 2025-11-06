@@ -10,9 +10,9 @@ const data = {
   ],
   message: `Sayang Bella,
 
-Di hari yang spesial ini, aku cuma mau bilang betapa bersyukurnya aku karena kamu hadir di hidupku. Terima kasih untuk semua tawa, pelukan, dan perhatian manis yang selalu kamu berikan.
+Di hari yang spesial ini, aku mau bilang tetap semangat terus jangan cape cape buat ngadepin cueknya aku, tetap jadi bella yang baik, dan doaku pastinya pengen liat kamu sukses serta capai semua yang belum tercapai, bahagianya aku selain liat kamu senyum, juga bahagia atas pencapainmu. aku sangat bersyukur punya kamu sekarang karena jeleknya dan egonya aku membaik sering kita kalau lagi berantem atau engga yang pasti adanya kamu buat aku ngeliat mengalah itu bukan kesalahan melainkan hal yang baik untuk koreksi diri supaya yang baik bisa jadi baik lagi. Terima kasih untuk semuanya terima kasih utnuk tidak cape sama aku, maaf belum bisa romantis kwkwkwkwk, dan mungkin belum mencapai juga yang memang aku lagi jalani sekarang yang pasti aku tetap sama kamu sekarang engga neko neko, makasi atas perhatian manis yang selalu kamu berikan.
 
-Semoga tahun ini membawa banyak kebahagiaan, kesehatan, dan mimpi-mimpi kita yang jadi kenyataan.
+Semoga tahun ini dan tahun yang akan datang membawa banyak kebahagiaan, kesehatan, dan mimpi-mimpi kita yang jadi kenyataan.
 
 Selamat ulang tahun, Bella. I love you ❤️`
 };
@@ -36,12 +36,21 @@ const questionText = document.getElementById('questionText');
 const answerInput = document.getElementById('answerInput');
 const feedback = document.getElementById('feedback');
 
-const memoryPhoto = document.getElementById('memoryPhoto');
+const memoryPhoto1 = document.getElementById('memoryPhoto1');
+const memoryPhoto2 = document.getElementById('memoryPhoto2');
 const birthdayMessage = document.getElementById('birthdayMessage');
 const confettiContainer = document.getElementById('confetti');
 const sky = document.getElementById('sky');
 const cloudCanvas = document.getElementById('cloudCanvas');
 const sceneCanvas = document.getElementById('sceneCanvas');
+// WhatsApp feedback elements
+const waNumber = document.getElementById('waNumber');
+const waMsg1 = document.getElementById('waMsg1');
+const waMsg2 = document.getElementById('waMsg2');
+const waMsg3 = document.getElementById('waMsg3');
+const waSend1 = document.getElementById('waSend1');
+const waSend2 = document.getElementById('waSend2');
+const waSend3 = document.getElementById('waSend3');
 let cloudCtx;
 let clouds = [];
 let cloudAnimId = null;
@@ -132,8 +141,12 @@ function showFinal() {
     finalView.classList.add('active');
 
     // Isi konten hadiah
-    memoryPhoto.src = data.photoUrl;
+    if (memoryPhoto1) memoryPhoto1.src = 'assets/music/Bella_1.jpeg';
+    if (memoryPhoto2) memoryPhoto2.src = 'assets/music/Bella_2.jpeg';
     birthdayMessage.innerHTML = `<p>${data.message.replace(/\n/g, '<br/>')}</p>`;
+
+    // Pasang handler WhatsApp jika elemen ada
+    wireWhatsAppForm();
 
     // Jalankan confetti saat final muncul
     launchConfetti(200, 2200);
@@ -165,9 +178,9 @@ function showLoader(duration = 700, done) {
 
 // ===== Storytelling Pop-up =====
 const storyLines = [
-  'Dulu kita janjian jam 7… datangnya jam 7:59. Legend.',
-  'Kucing di taman ngeliatin kita. Mungkin iri karena kita gemoy.',
-  'Kalau kamu ketawa, dunia ikut buffer dikit—overload lucu.',
+  'Engga boleh curiga berlebihan, nanti overthinking.',
+  'Jangan mudah ngambek yaaaa..',
+  'Sayangi keluarga mama dan papah, apapun itu kalau buat kamu kesel, tetep harus sayangi mereka.',
 ];
 let storyIndex = 0;
 let typerId = null;
@@ -646,6 +659,18 @@ function initPicnicScene() {
     sceneCtx.fillRect(x - 8 * scale, y, 16 * scale, 60 * scale);
   }
 
+  // Kelompok pohon di titik-titik yang estetis
+  function drawForest() {
+    // kiri dekat pagar
+    drawTree(W() * 0.12, H() * 0.61, 1.0);
+    drawTree(W() * 0.18, H() * 0.63, 0.9);
+    // tengah belakang
+    drawTree(W() * 0.50, H() * 0.60, 1.1);
+    // kanan agak jauh
+    drawTree(W() * 0.72, H() * 0.62, 0.95);
+    drawTree(W() * 0.90, H() * 0.60, 1.0);
+  }
+
   function drawBlanket() {
     const groundTop = H() * 0.68;
     const groundHeight = H() - groundTop;
@@ -751,6 +776,106 @@ function initPicnicScene() {
     sceneCtx.fillRect(gx + size / 2 + 2, gy - 10, 8, 10);
   }
 
+  // Tambahkan beberapa bingkisan di atas karpet merah
+  function drawGiftBoxAt(gx, gy, size, base = '#f3c56b', ribbon = '#d34a4a') {
+    const s = Math.round(size);
+    const x = Math.round(gx);
+    const y = Math.round(gy);
+    sceneCtx.fillStyle = base;
+    sceneCtx.fillRect(x, y, s, s);
+    sceneCtx.fillStyle = '#e5b658';
+    sceneCtx.fillRect(x, y, s, Math.max(6, Math.round(s * 0.08)));
+    sceneCtx.fillStyle = ribbon;
+    const rW = Math.max(6, Math.round(s * 0.12));
+    sceneCtx.fillRect(x + s / 2 - rW / 2, y, rW, s);
+    sceneCtx.fillRect(x, y + s / 2 - rW / 2, s, rW);
+    sceneCtx.fillRect(x + s / 2 - 10, y - 10, 8, 10);
+    sceneCtx.fillRect(x + s / 2 + 2, y - 10, 8, 10);
+  }
+
+  function drawGiftBoxes() {
+    const groundTop = H() * 0.68;
+    const groundHeight = H() - groundTop;
+    const bw = Math.min(420, W() * 0.40);
+    const bh = Math.min(240, groundHeight * 0.45);
+    const x = W() * 0.5 - bw * 0.5;
+    const y = groundTop + (groundHeight * 0.5) - (bh * 0.5);
+
+    // Ukuran relatif terhadap karpet
+    const base = Math.min(bw, bh);
+    const sizes = [base * 0.22, base * 0.18, base * 0.16, base * 0.20];
+    const colors = [
+      { base: '#f3c56b', ribbon: '#d34a4a' },
+      { base: '#c0e0f8', ribbon: '#2a7bd3' },
+      { base: '#f8e0e8', ribbon: '#bc6b24' },
+      { base: '#d2f0c8', ribbon: '#6fa96b' },
+    ];
+
+    // Posisi di sudut-sudut karpet agar tidak menabrak kotak tengah
+    const pad = Math.max(12, Math.round(base * 0.06));
+    const positions = [
+      { ox: pad, oy: pad },
+      { ox: bw - pad, oy: pad, anchor: 'top-right' },
+      { ox: pad, oy: bh - pad, anchor: 'bottom-left' },
+      { ox: bw - pad, oy: bh - pad, anchor: 'bottom-right' },
+    ];
+
+    for (let i = 0; i < positions.length; i++) {
+      const p = positions[i];
+      const s = sizes[i % sizes.length];
+      const col = colors[i % colors.length];
+      const gx = x + (p.anchor && p.anchor.includes('right') ? p.ox - s : p.ox);
+      const gy = y + (p.anchor && p.anchor.includes('bottom') ? p.oy - s : p.oy);
+      drawGiftBoxAt(gx, gy, s, col.base, col.ribbon);
+    }
+  }
+
+  // Beberapa balon di atas karpet
+  function drawBalloon(x, y, color, t) {
+    // Sedikit goyangan vertikal
+    const bob = Math.sin(t * 0.003 + x * 0.01) * 4;
+    const bx = Math.round(x);
+    const by = Math.round(y + bob);
+    sceneCtx.save();
+    sceneCtx.fillStyle = color;
+    sceneCtx.beginPath();
+    sceneCtx.ellipse(bx, by, 16, 22, 0, 0, Math.PI * 2);
+    sceneCtx.fill();
+    // simpul kecil
+    sceneCtx.fillStyle = '#8a6f4d';
+    sceneCtx.fillRect(bx - 2, by + 20, 4, 4);
+    // tali ke karpet
+    sceneCtx.strokeStyle = 'rgba(60,60,60,0.8)';
+    sceneCtx.lineWidth = 1;
+    sceneCtx.beginPath();
+    sceneCtx.moveTo(bx, by + 22);
+    sceneCtx.lineTo(bx, by + 60);
+    sceneCtx.stroke();
+    sceneCtx.restore();
+  }
+
+  function drawBalloons(timeMs) {
+    const groundTop = H() * 0.68;
+    const groundHeight = H() - groundTop;
+    const bw = Math.min(420, W() * 0.40);
+    const bh = Math.min(240, groundHeight * 0.45);
+    const x = W() * 0.5 - bw * 0.5;
+    const y = groundTop + (groundHeight * 0.5) - (bh * 0.5);
+
+    const colors = ['#ff8fb1', '#6fb8e8', '#ffd166', '#a0e7e5', '#cdb4db'];
+    const anchors = [
+      { ax: x + bw * 0.18, ay: y - 18 },
+      { ax: x + bw * 0.82, ay: y - 22 },
+      { ax: x + bw * 0.50, ay: y - 34 },
+      { ax: x + bw * 0.32, ay: y - 28 },
+      { ax: x + bw * 0.68, ay: y - 30 },
+    ];
+    for (let i = 0; i < anchors.length; i++) {
+      const c = colors[i % colors.length];
+      drawBalloon(anchors[i].ax, anchors[i].ay, c, timeMs);
+    }
+  }
+
   function updateCat() {
     if (cat.state === 'walk') {
       cat.phase += 0.18;
@@ -840,6 +965,72 @@ function initPicnicScene() {
       drawCat();
       cat = old;
     }
+  }
+
+  // Dialog "Meow meow" untuk kucing (utama dan tambahan)
+  function updateEntitySpeech(entity) {
+    if (!entity) return;
+    if (!entity.bubble) {
+      entity.bubble = { text: null, timer: 0, cooldown: 200 + Math.floor(Math.random() * 160) };
+    }
+    if (entity.bubble.timer > 0) {
+      entity.bubble.timer--;
+      if (entity.bubble.timer <= 0) entity.bubble.text = null;
+    } else {
+      entity.bubble.cooldown--;
+      if (entity.bubble.cooldown <= 0) {
+        entity.bubble.text = 'Meow meow';
+        entity.bubble.timer = 180 + Math.floor(Math.random() * 140);
+        entity.bubble.cooldown = 240 + Math.floor(Math.random() * 220);
+      }
+    }
+  }
+
+  function updateCatsSpeech() {
+    updateEntitySpeech(cat);
+    for (const c of moreCats) updateEntitySpeech(c);
+  }
+
+  function drawCatSpeechBubble(entity) {
+    if (!entity || !entity.bubble || !entity.bubble.text) return;
+    const facing = entity.dir >= 0 ? 1 : -1;
+    const tx = Math.round(entity.x);
+    const walkBob = entity.state === 'walk' ? Math.sin(entity.phase) * 2 : 0;
+    // Posisi di atas kepala kucing
+    const ty = Math.round(pathY() + walkBob - 34);
+
+    sceneCtx.save();
+    sceneCtx.font = '20px VT323, monospace';
+    const metrics = sceneCtx.measureText(entity.bubble.text);
+    const padX = 12, padY = 8;
+    const bw = Math.max(64, Math.round(metrics.width) + padX * 2);
+    const bh = 28;
+
+    const bx = tx - bw / 2;
+    const by = ty - bh;
+    sceneCtx.fillStyle = 'rgba(255,255,255,0.92)';
+    sceneCtx.fillRect(bx, by, bw, bh);
+    sceneCtx.strokeStyle = '#2a2a2a';
+    sceneCtx.lineWidth = 2;
+    sceneCtx.strokeRect(bx, by, bw, bh);
+
+    // ekor bubble mengarah ke kepala kucing
+    sceneCtx.beginPath();
+    const tailX = tx + (facing > 0 ? -6 : 6);
+    const tailY = by + bh;
+    sceneCtx.moveTo(tailX, tailY);
+    sceneCtx.lineTo(tailX + (facing > 0 ? -10 : 10), tailY + 8);
+    sceneCtx.lineTo(tailX + (facing > 0 ? -2 : 2), tailY);
+    sceneCtx.closePath();
+    sceneCtx.fillStyle = 'rgba(255,255,255,0.92)';
+    sceneCtx.fill();
+    sceneCtx.strokeStyle = '#2a2a2a';
+    sceneCtx.stroke();
+
+    sceneCtx.fillStyle = '#1a1a1a';
+    sceneCtx.textBaseline = 'middle';
+    sceneCtx.fillText(entity.bubble.text, bx + padX, by + bh / 2);
+    sceneCtx.restore();
   }
 
   // Jalur pejalan kaki di atas rumput
@@ -1029,9 +1220,12 @@ function initPicnicScene() {
     drawWaterStream(now);
     drawTree(W() * 0.2, H() * 0.62, 1.1);
     drawTree(W() * 0.85, H() * 0.6, 1.0);
+    drawForest();
     drawPath();
     drawBlanket();
     drawGiftBox();
+    drawGiftBoxes();
+    drawBalloons(now);
     updateCouples();
     updateCoupleSpeech();
     drawCouple(couples[0]);
@@ -1042,6 +1236,10 @@ function initPicnicScene() {
     drawCat();
     updateMoreCats();
     drawMoreCats();
+    // Perbarui dan gambar bubble dialog untuk kucing
+    updateCatsSpeech();
+    drawCatSpeechBubble(cat);
+    for (const mc of moreCats) drawCatSpeechBubble(mc);
     hedgehogPhase += 0.02;
     drawHedgehog();
     sceneAnimId = requestAnimationFrame(loop);
@@ -1075,3 +1273,40 @@ if (storyCloseBtn) storyCloseBtn.addEventListener('click', () => {
 initCloudsCanvas();
 initPicnicScene();
 showGate();
+// ===== WhatsApp helpers =====
+function normalizePhone(phone) {
+  const onlyDigits = (phone || '').replace(/\D+/g, '');
+  if (!onlyDigits) return '';
+  // Jika mulai dengan '0', ubah ke format internasional Indonesia '62'
+  if (onlyDigits.startsWith('0')) {
+    return '62' + onlyDigits.slice(1);
+  }
+  return onlyDigits;
+}
+
+function buildWhatsAppLink(text, phone) {
+  const encodedText = encodeURIComponent(text || '');
+  const p = normalizePhone(phone);
+  if (p) return `https://wa.me/${p}?text=${encodedText}`;
+  return `https://wa.me/?text=${encodedText}`;
+}
+
+function wireWhatsAppForm() {
+  // Bind fleksibel: dukung 1 atau lebih kolom, tanpa early return
+  // Isi default nomor jika kosong
+  if (waNumber && !waNumber.value) {
+    waNumber.value = '081385462587';
+  }
+  const bind = (btn, input) => {
+    if (!btn || !input) return;
+    btn.onclick = () => {
+      const text = input.value.trim();
+      if (!text) return;
+      const url = buildWhatsAppLink(text, waNumber && waNumber.value);
+      try { window.open(url, '_blank'); } catch {}
+    };
+  };
+  bind(waSend1, waMsg1);
+  bind(waSend2, waMsg2);
+  bind(waSend3, waMsg3);
+}
