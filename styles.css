@@ -62,6 +62,19 @@ input, button, select, textarea { font-family: inherit; }
 /* Hanya tampil sebagai flex saat aktif, agar kelas .hidden bisa bekerja */
 #gate.view.active { display: flex; }
 
+/* Posisikan kuis lebih tinggi di atas awan */
+#quiz.view.active {
+  display: block;
+  transform: translateY(-18vh);
+  z-index: 2;
+}
+
+/* Batasi lebar kartu form agar tetap rapi dan terpusat */
+#card {
+  width: min(92vw, 560px);
+  margin: 0 auto;
+}
+
 @media (max-width: 520px) {
   #gate { transform: translateY(-16vh); }
 }
