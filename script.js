@@ -61,7 +61,15 @@ function showQuiz() {
   gate.classList.add('hidden');
   quiz.classList.remove('hidden');
   quiz.classList.add('active');
+  // Pastikan overlay tidak menghalangi interaksi
+  try {
+    if (storyModal) storyModal.style.display = 'none';
+    if (loaderEl) loaderEl.style.display = 'none';
+    if (sky) sky.style.pointerEvents = 'none';
+  } catch {}
   renderQuestion();
+  // Fokuskan input setelah tampilan siap
+  setTimeout(() => { try { answerInput && answerInput.focus(); } catch {} }, 0);
 }
 
 function renderQuestion() {
