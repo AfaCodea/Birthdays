@@ -99,7 +99,7 @@ input, button, select, textarea { font-family: inherit; }
 .final-title {
   font-family: 'VT323', monospace;
   font-size: 3rem;
-  color: var(--tomato);
+  color: #bc6b24;
   text-transform: uppercase;
   text-align: center;
   margin: 0 0 28px;
