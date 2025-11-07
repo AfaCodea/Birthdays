@@ -145,11 +145,15 @@ function showFinal() {
     if (memoryPhoto2) memoryPhoto2.src = 'assets/music/Bella_2.jpeg';
     birthdayMessage.innerHTML = `<p>${data.message.replace(/\n/g, '<br/>')}</p>`;
 
+    if (memoryPhoto1) memoryPhoto1.classList.add('animate');
+    if (memoryPhoto2) memoryPhoto2.classList.add('animate');
+
     // Pasang handler WhatsApp jika elemen ada
     wireWhatsAppForm();
 
     // Jalankan confetti saat final muncul
     launchConfetti(200, 2200);
+    burstSparklesForPhotos(28);
     ensureMusic();
   });
 }
@@ -293,6 +297,31 @@ function launchConfetti(count = 160, duration = 2000) {
   setTimeout(() => {
     confettiContainer.innerHTML = '';
   }, duration + 1500);
+}
+
+function burstSparklesForPhotos(nPerPhoto = 26) {
+  const targets = [memoryPhoto1, memoryPhoto2].filter(Boolean);
+  const body = document.body;
+  const colors = ['#ffd166', '#ff8fb1', '#ffffff', '#e6e6fa'];
+  targets.forEach((el) => {
+    const r = el.getBoundingClientRect();
+    for (let i = 0; i < nPerPhoto; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'sparkle-piece';
+      const x = r.left + Math.random() * r.width;
+      const y = r.top + Math.random() * r.height;
+      piece.style.left = x + 'px';
+      piece.style.top = y + 'px';
+      const dx = (Math.random() - 0.5) * 120;
+      const dy = -40 - Math.random() * 80;
+      piece.style.setProperty('--dx', dx + 'px');
+      piece.style.setProperty('--dy', dy + 'px');
+      piece.style.setProperty('--t', (0.8 + Math.random() * 1.2) + 's');
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      body.appendChild(piece);
+      setTimeout(() => piece.remove(), 2000);
+    }
+  });
 }
 
 // Awan realistis berbasis Canvas
@@ -1255,7 +1284,16 @@ function initPicnicScene() {
 }
 
 // Event listeners
-startBtn.addEventListener('click', () => {
+startBtn.addEventListener('click', async () => {
+  // Minta fullscreen berdasarkan gesture pengguna (disyaratkan oleh browser)
+  try {
+    const el = document.documentElement;
+    if (el.requestFullscreen) {
+      await el.requestFullscreen();
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen();
+    }
+  } catch {}
   showLoader(500, showStory);
 });
 submitBtn.addEventListener('click', handleSubmit);

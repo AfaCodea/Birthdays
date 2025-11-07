@@ -205,6 +205,21 @@ input, button, select, textarea { font-family: inherit; }
   outline: 2px solid #000;
 }
 
+.photo.animate {
+  animation: photoEntrance 700ms ease both, photoFloat 7s ease-in-out infinite 800ms;
+}
+
+@keyframes photoEntrance {
+  from { opacity: 0; transform: scale(0.92) rotate(-2deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes photoFloat {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
 /* Card foto dua kolom di tampilan final */
 .photo-card {
   width: min(92vw, 820px);
@@ -358,6 +373,22 @@ input, button, select, textarea { font-family: inherit; }
   transform: rotate(0deg);
   will-change: transform;
   animation: confetti-fall linear forwards;
+}
+
+.sparkle-piece {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff, #ffd166 60%, #f5a8c0 100%);
+  box-shadow: 0 0 8px rgba(255, 216, 102, 0.7);
+  opacity: 0.95;
+  animation: sparkle-drift var(--t, 1.2s) ease-out forwards;
+}
+
+@keyframes sparkle-drift {
+  0%   { transform: translate(0, 0) scale(0.8); opacity: 1; }
+  100% { transform: translate(var(--dx, 0px), var(--dy, -60px)) scale(1.4); opacity: 0; }
 }
 
 @keyframes confetti-fall {
